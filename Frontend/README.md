@@ -46,7 +46,7 @@ Unlike naive implementations, it uses **CRDT (Conflict-free Replicated Data Type
 🎥 Watch the implementation:
 [https://youtu.be/Uf6PXnagtsg?si=pXbkRRgrP2NVr1xt](https://youtu.be/Uf6PXnagtsg?si=pXbkRRgrP2NVr1xt)
 
-⏱️ Focus timestamp: **48:16**
+⏱️ Focus timestamp: **1:16**
 
 ---
 
