@@ -133,14 +133,14 @@ function App() {
             <h3 className="text-lg font-bold mb-2">Welcome {userName}!</h3>
             <h4 className="text-md font-semibold mb-1">Active Users:</h4>
             <ul className="list-disc list-inside">
-              {socket &&
-                Array.from(socket.awareness.getStates().values()).map((state, index) => (
+              {users &&
+                users.map((user, index) => (
                   <li key={index} className="flex items-center gap-2">
                     <span
                       className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: state.user.color }}
+                      style={{ backgroundColor: user.color }}
                     ></span>
-                    {state.user.name}
+                    {user.name}
                   </li>
                 ))}
             </ul>
