@@ -28,7 +28,7 @@ function App() {
       console.log('Joining with username:', userName);
 
        const provider = new SocketIOProvider(
-        'http://localhost:3000',
+        '/',
         'monaco-demo',
         ydoc,
         {
