@@ -22,19 +22,12 @@ function App() {
   const providerRef = useRef(null);
   const bindingRef = useRef(null);
 
-  const handleMount = (editor) => {
-    editRef.current = editor;
-  };
 
-  const handleJoin = (e) => {
-    e.preventDefault();
-    window.history.pushState({}, '?userName=' + e.target.username.value);
-    setJoined(true);
-  };
+    useEffect(() => {
+    if (userName) {
+      console.log('Joining with username:', userName);
 
-  useEffect(() => {
-    if (userName && editRef.current) {
-      const provider = new SocketIOProvider(
+       const provider = new SocketIOProvider(
         'http://localhost:3000',
         'monaco-demo',
         ydoc,
@@ -42,37 +35,65 @@ function App() {
           autoConnect: true,
         }
       );
-      setSocket(provider);
-      socket?.awareness.setLocalStateField('user', {
+
+     
+
+ 
+      console.log('SocketIOProvider set in state:', socket);
+
+ 
+     
+      provider.awareness.setLocalStateField('user', {
         name: userName,
         color: '#' + Math.floor(Math.random() * 16777215).toString(16),
       });
 
-      socket.awareness.on('change', () => {
-        const states = Array.from(socket.awareness.getStates().values());
+      provider.awareness.on('change', () => {
+        const states = Array.from(provider.awareness.getStates().values());
         console.log('Active users:', states);
         setUsers(states.map((state) => state.user).filter((user)=> Boolean(user.name)));
       });
 
       providerRef.current = provider;
-      const monacoBinding = new MonacoBinding(
-        yText,
-        editRef.current.getModel(),
-        new Set([editRef.current]),
-        provider.awareness
-      );
-      bindingRef.current = monacoBinding;
+     
     }
 
-  let  beforeUnloadHandler = (e) => {
-     socket?.disconnect();
-     socket?.awareness.setLocalStateField('user', null);
+    let  beforeUnloadHandler = (e) => {
+     provider.disconnect();
+     provider.awareness.setLocalStateField('user', null);
     };
 
     window.addEventListener('beforeunload', beforeUnloadHandler);
 
 
-  }, [userName, editRef.current]);
+  }, [userName]);
+
+
+
+  const handleMount = (editor) => {
+    editRef.current = editor;
+
+    const monacoBinding = new MonacoBinding(
+        yText,
+        editRef.current.getModel(),
+        new Set([editRef.current]),
+ 
+      );
+      bindingRef.current = monacoBinding;
+
+  };
+
+  const handleJoin = (e) => {
+    e.preventDefault();
+    window.history.pushState({}, '?userName=' + e.target.username.value);
+    setJoined(true);
+
+     
+
+
+  };
+
+
 
   if (!joined) {
     return (
